@@ -3,93 +3,135 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Turntable — demo</title>
+  <title>Turntable — frame-flipping image slider</title>
+
+  <link rel="preconnect" href="https://rsms.me/">
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
   <link rel="stylesheet" href="../dist/turntable.css">
+  <link rel="stylesheet" href="demo.css">
+
   <style>
-    :root { color-scheme: light dark; font-family: system-ui, sans-serif; }
-    body { max-width: 760px; margin: 2rem auto; padding: 0 1rem; line-height: 1.5; }
-    h1 { margin-top: 0; }
-    h2 { margin-top: 2.5rem; border-top: 1px solid #8884; padding-top: 1.5rem; }
-    .turntable { max-width: 100%; width: 480px; cursor: ew-resize; user-select: none; }
+    /* Page-local sizing for the widget. */
+    .turntable { width: 100%; max-width: 380px; cursor: ew-resize; user-select: none; }
     .turntable[data-axis="y"] { cursor: ns-resize; }
-    .stage { display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-start; }
-    input[type=range] { width: 100%; max-width: 480px; }
-    code { background: #8881; padding: 0 0.25em; border-radius: 3px; }
-    pre  { background: #8881; padding: 0.75rem; border-radius: 6px; overflow-x: auto; }
+    .turntable[data-axis="scroll"] { cursor: default; }
   </style>
 </head>
 <body>
 
-  <h1>Turntable</h1>
-  <p>A small frame-flipping image slider. Drag, scroll, autorotate, or wire it to a range input.</p>
-
-  <h2>Pointer (horizontal)</h2>
-  <p>Drag left ↔ right across the image.</p>
-  <div class="stage">
-    <div id="ttPointer" class="turntable">
-      <ul>
-        <li data-img-src="images/plant1.JPG"></li>
-        <li data-img-src="images/plant3.JPG"></li>
-        <li data-img-src="images/plant5.JPG"></li>
-        <li data-img-src="images/plant7.JPG"></li>
-        <li data-img-src="images/plant9.JPG"></li>
-        <li data-img-src="images/plant11.JPG"></li>
-        <li data-img-src="images/plant13.JPG"></li>
-        <li data-img-src="images/plant15.JPG"></li>
-        <li data-img-src="images/plant17.JPG"></li>
-        <li data-img-src="images/plant19.JPG"></li>
-        <li data-img-src="images/plant21.JPG"></li>
-        <li data-img-src="images/plant23.JPG"></li>
-        <li data-img-src="images/plant25.JPG"></li>
-        <li data-img-src="images/plant27.JPG"></li>
-      </ul>
+  <header class="gbf-header">
+    <div class="gbf-container">
+      <p class="gbf-eyebrow">Plugin</p>
+      <h1 class="gbf-title">Turntable<span class="gbf-title__accent">.</span></h1>
+      <p class="gbf-tagline">A small frame-flipping image slider. Drag, scroll, autorotate, or wire it to a range input. Zero dependencies, ~4&nbsp;KB minified.</p>
+      <code class="gbf-install">npm install @goboldlyforward/turntable</code>
+      <nav class="gbf-nav">
+        <a href="https://github.com/GoBoldlyForward/turntable">GitHub</a>
+        <a href="https://www.npmjs.com/package/@goboldlyforward/turntable">npm</a>
+        <a href="https://github.com/GoBoldlyForward/turntable#readme">Docs</a>
+        <a href="https://github.com/GoBoldlyForward/turntable/blob/master/CHANGELOG.md">Changelog</a>
+      </nav>
     </div>
-  </div>
+  </header>
 
-  <h2>Range input controller</h2>
-  <p>Drag the slider; the frame follows.</p>
-  <div class="stage">
-    <div id="ttRange" class="turntable">
-      <ul>
-        <li data-img-src="images/plant2.JPG"></li>
-        <li data-img-src="images/plant4.JPG"></li>
-        <li data-img-src="images/plant6.JPG"></li>
-        <li data-img-src="images/plant8.JPG"></li>
-        <li data-img-src="images/plant10.JPG"></li>
-        <li data-img-src="images/plant12.JPG"></li>
-        <li data-img-src="images/plant14.JPG"></li>
-        <li data-img-src="images/plant16.JPG"></li>
-        <li data-img-src="images/plant18.JPG"></li>
-        <li data-img-src="images/plant20.JPG"></li>
-      </ul>
+  <section class="gbf-section">
+    <div class="gbf-container">
+      <p class="gbf-eyebrow gbf-eyebrow--accent">Mode &middot; Pointer</p>
+      <h2 class="gbf-section__title">Drag across the frame</h2>
+      <p class="gbf-section__lede">PointerEvents unify mouse, touch, and pen — one handler covers every input. Drag horizontally to scrub through frames.</p>
+      <div class="gbf-stage gbf-stage--split">
+        <div class="gbf-canvas">
+          <div id="ttPointer" class="turntable">
+            <ul>
+              <li data-img-src="images/plant1.JPG"></li>
+              <li data-img-src="images/plant3.JPG"></li>
+              <li data-img-src="images/plant5.JPG"></li>
+              <li data-img-src="images/plant7.JPG"></li>
+              <li data-img-src="images/plant9.JPG"></li>
+              <li data-img-src="images/plant11.JPG"></li>
+              <li data-img-src="images/plant13.JPG"></li>
+              <li data-img-src="images/plant15.JPG"></li>
+              <li data-img-src="images/plant17.JPG"></li>
+              <li data-img-src="images/plant19.JPG"></li>
+              <li data-img-src="images/plant21.JPG"></li>
+              <li data-img-src="images/plant23.JPG"></li>
+              <li data-img-src="images/plant25.JPG"></li>
+              <li data-img-src="images/plant27.JPG"></li>
+            </ul>
+          </div>
+        </div>
+        <pre class="gbf-code"><code>new Turntable("#myTurntable", {
+  axis: "x",
+});</code></pre>
+      </div>
     </div>
-    <input id="rangeCtl" type="range">
-  </div>
+  </section>
 
-  <h2>Autorotate</h2>
-  <p>Hands off. 120 ms per frame.</p>
-  <div class="stage">
-    <div id="ttAuto" class="turntable">
-      <ul>
-        <li data-img-src="images/plant1.JPG"></li>
-        <li data-img-src="images/plant4.JPG"></li>
-        <li data-img-src="images/plant7.JPG"></li>
-        <li data-img-src="images/plant10.JPG"></li>
-        <li data-img-src="images/plant13.JPG"></li>
-        <li data-img-src="images/plant16.JPG"></li>
-        <li data-img-src="images/plant19.JPG"></li>
-        <li data-img-src="images/plant22.JPG"></li>
-      </ul>
+  <section class="gbf-section">
+    <div class="gbf-container">
+      <p class="gbf-eyebrow gbf-eyebrow--accent">Mode &middot; Controller</p>
+      <h2 class="gbf-section__title">Bind to a range input</h2>
+      <p class="gbf-section__lede">Pass an <code>&lt;input type="range"&gt;</code> as the <code>controller</code> option. The plugin wires up <code>min</code>/<code>max</code>/<code>step</code> and keeps both directions in sync.</p>
+      <div class="gbf-stage gbf-stage--split">
+        <div class="gbf-canvas">
+          <div id="ttRange" class="turntable">
+            <ul>
+              <li data-img-src="images/plant2.JPG"></li>
+              <li data-img-src="images/plant4.JPG"></li>
+              <li data-img-src="images/plant6.JPG"></li>
+              <li data-img-src="images/plant8.JPG"></li>
+              <li data-img-src="images/plant10.JPG"></li>
+              <li data-img-src="images/plant12.JPG"></li>
+              <li data-img-src="images/plant14.JPG"></li>
+              <li data-img-src="images/plant16.JPG"></li>
+              <li data-img-src="images/plant18.JPG"></li>
+              <li data-img-src="images/plant20.JPG"></li>
+            </ul>
+          </div>
+          <input id="rangeCtl" class="gbf-range" type="range" aria-label="Frame">
+        </div>
+        <pre class="gbf-code"><code>const input = document.querySelector("input[type=range]");
+
+new Turntable("#myTurntable", {
+  controller: input,
+});</code></pre>
+      </div>
     </div>
-  </div>
+  </section>
 
-  <h2>Usage</h2>
-  <pre><code>&lt;script src="dist/turntable.iife.min.js"&gt;&lt;/script&gt;
-&lt;script&gt;
-  new Turntable("#myTurntable", { axis: "x" });
-&lt;/script&gt;</code></pre>
+  <section class="gbf-section">
+    <div class="gbf-container">
+      <p class="gbf-eyebrow gbf-eyebrow--accent">Mode &middot; Autorotate</p>
+      <h2 class="gbf-section__title">Hands-off cycling</h2>
+      <p class="gbf-section__lede">Pass <code>autorotate</code> a millisecond interval and the plugin advances frames on its own. Call <code>.stop()</code> to pause, <code>.start()</code> to resume.</p>
+      <div class="gbf-stage gbf-stage--split">
+        <div class="gbf-canvas">
+          <div id="ttAuto" class="turntable">
+            <ul>
+              <li data-img-src="images/plant1.JPG"></li>
+              <li data-img-src="images/plant4.JPG"></li>
+              <li data-img-src="images/plant7.JPG"></li>
+              <li data-img-src="images/plant10.JPG"></li>
+              <li data-img-src="images/plant13.JPG"></li>
+              <li data-img-src="images/plant16.JPG"></li>
+              <li data-img-src="images/plant19.JPG"></li>
+              <li data-img-src="images/plant22.JPG"></li>
+            </ul>
+          </div>
+        </div>
+        <pre class="gbf-code"><code>new Turntable("#myTurntable", {
+  autorotate: 120, // ms per frame
+});</code></pre>
+      </div>
+    </div>
+  </section>
 
-  <p>Full docs in the <a href="https://github.com/GoBoldlyForward/turntable">README</a>.</p>
+  <footer class="gbf-footer">
+    <div class="gbf-container gbf-footer__row">
+      <span>MIT &middot; <a href="https://github.com/GoBoldlyForward">Go Boldly Forward</a></span>
+      <span>v2.0.0 &middot; <a href="https://github.com/GoBoldlyForward/turntable/tree/v1-jquery-legacy">v1 (jQuery)</a></span>
+    </div>
+  </footer>
 
   <script src="../dist/turntable.iife.min.js"></script>
   <script>

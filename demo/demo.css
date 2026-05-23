@@ -1,0 +1,311 @@
+/* Go Boldly Forward — plugin demo theme v1
+ *
+ * Canonical, dependency-free stylesheet for any plugin's demo page.
+ * Light + dark via prefers-color-scheme. CSS custom properties for theming.
+ *
+ * Master copy lives at ~/code/_plugins/_shared/demo.css.
+ * Each plugin's gh-pages demo carries its own copy (cross-repo loading is
+ * not portable). When this file changes, sync it into each plugin's demo/.
+ *
+ * Markup convention:
+ *   <body>
+ *     <header class="gbf-header">
+ *       <div class="gbf-container">
+ *         <p class="gbf-eyebrow">Plugin</p>
+ *         <h1 class="gbf-title">name</h1>
+ *         <p class="gbf-tagline">…</p>
+ *         <code class="gbf-install">npm install …</code>
+ *         <nav class="gbf-nav"><a>…</a></nav>
+ *       </div>
+ *     </header>
+ *
+ *     <section class="gbf-section">
+ *       <div class="gbf-container">
+ *         <p class="gbf-eyebrow gbf-eyebrow--accent">Mode</p>
+ *         <h2 class="gbf-section__title">Title</h2>
+ *         <p class="gbf-section__lede">…</p>
+ *         <div class="gbf-stage gbf-stage--split">
+ *           <div class="gbf-canvas">…</div>
+ *           <pre class="gbf-code"><code>…</code></pre>
+ *         </div>
+ *       </div>
+ *     </section>
+ *
+ *     <footer class="gbf-footer">…</footer>
+ *   </body>
+ */
+
+:root {
+  /* Type stacks */
+  --gbf-font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --gbf-font-mono: "JetBrains Mono", "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+
+  /* Light palette (zinc + orange) */
+  --gbf-bg:            #ffffff;
+  --gbf-bg-elevated:   #fafafa;
+  --gbf-bg-code:       #f4f4f5;
+  --gbf-fg:            #09090b;
+  --gbf-fg-muted:      #52525b;
+  --gbf-fg-faint:      #a1a1aa;
+  --gbf-border:        #e4e4e7;
+  --gbf-border-strong: #d4d4d8;
+  --gbf-accent:        #ea580c; /* orange-600 */
+  --gbf-accent-fg:     #ffffff;
+  --gbf-accent-soft:   rgba(234, 88, 12, 0.10);
+
+  /* Geometry */
+  --gbf-radius:        8px;
+  --gbf-radius-lg:     14px;
+  --gbf-container:     1040px;
+  --gbf-container-narrow: 720px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --gbf-bg:            #0a0a0b;
+    --gbf-bg-elevated:   #18181b;
+    --gbf-bg-code:       #18181b;
+    --gbf-fg:            #fafafa;
+    --gbf-fg-muted:      #a1a1aa;
+    --gbf-fg-faint:      #71717a;
+    --gbf-border:        #27272a;
+    --gbf-border-strong: #3f3f46;
+    --gbf-accent:        #fb923c; /* orange-400, lifts on dark */
+    --gbf-accent-soft:   rgba(251, 146, 60, 0.14);
+  }
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: var(--gbf-font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--gbf-fg);
+  background: var(--gbf-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a { color: var(--gbf-accent); text-underline-offset: 3px; }
+a:hover { text-decoration-thickness: 2px; }
+
+/* Layout primitives ------------------------------------------------------- */
+
+.gbf-container {
+  max-width: var(--gbf-container);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+.gbf-container--narrow { max-width: var(--gbf-container-narrow); }
+
+/* Eyebrows — small uppercase labels */
+
+.gbf-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gbf-fg-muted);
+  margin: 0 0 0.75rem;
+}
+.gbf-eyebrow--accent { color: var(--gbf-accent); }
+
+/* Header ------------------------------------------------------------------ */
+
+.gbf-header {
+  padding: 5rem 0 4rem;
+  border-bottom: 1px solid var(--gbf-border);
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, var(--gbf-accent-soft), transparent 60%),
+    var(--gbf-bg);
+}
+
+.gbf-title {
+  font-size: clamp(2.75rem, 7vw, 4.5rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  margin: 0 0 0.75rem;
+}
+.gbf-title__accent { color: var(--gbf-accent); }
+
+.gbf-tagline {
+  font-size: 1.25rem;
+  color: var(--gbf-fg-muted);
+  margin: 0 0 2rem;
+  max-width: 36em;
+  line-height: 1.5;
+}
+
+.gbf-install {
+  display: inline-block;
+  background: var(--gbf-bg-code);
+  border: 1px solid var(--gbf-border);
+  border-radius: var(--gbf-radius);
+  padding: 0.625rem 1rem;
+  font-family: var(--gbf-font-mono);
+  font-size: 0.875rem;
+  color: var(--gbf-fg);
+  margin: 0 0 2rem;
+}
+.gbf-install::before { content: "$ "; color: var(--gbf-fg-faint); }
+
+.gbf-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+}
+.gbf-nav a {
+  color: var(--gbf-fg);
+  text-decoration: none;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  border-bottom: 1px solid var(--gbf-border-strong);
+  padding-bottom: 1px;
+  transition: color 0.15s, border-color 0.15s;
+}
+.gbf-nav a:hover { color: var(--gbf-accent); border-color: var(--gbf-accent); }
+
+/* Section ----------------------------------------------------------------- */
+
+.gbf-section {
+  padding: 4rem 0;
+  border-bottom: 1px solid var(--gbf-border);
+}
+.gbf-section:last-of-type { border-bottom: none; }
+
+.gbf-section__title {
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin: 0 0 0.75rem;
+  line-height: 1.15;
+}
+.gbf-section__lede {
+  font-size: 1.0625rem;
+  color: var(--gbf-fg-muted);
+  margin: 0 0 2.25rem;
+  max-width: 44em;
+}
+
+/* Stage — side-by-side canvas + code on wider screens */
+
+.gbf-stage {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+@media (min-width: 820px) {
+  .gbf-stage--split { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); }
+}
+
+.gbf-canvas {
+  background: var(--gbf-bg-elevated);
+  border: 1px solid var(--gbf-border);
+  border-radius: var(--gbf-radius-lg);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.875rem;
+  min-height: 0;
+}
+
+.gbf-code {
+  margin: 0;
+  background: var(--gbf-bg-code);
+  border: 1px solid var(--gbf-border);
+  border-radius: var(--gbf-radius);
+  padding: 1.125rem 1.25rem;
+  font-family: var(--gbf-font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.7;
+  overflow-x: auto;
+  color: var(--gbf-fg);
+}
+.gbf-code code {
+  font-family: inherit;
+  color: inherit;
+  background: none;
+  padding: 0;
+}
+
+/* Scroll-driven section --------------------------------------------------- */
+
+/* Wraps a normal-flow canvas in generous top/bottom runway so the user can
+ * scroll the element through the viewport middle — that's what the
+ * plugin's `axis: 'scroll'` mode reacts to. Don't sticky-position the
+ * widget; the scroll math reads its rect.top relative to viewport center.
+ */
+.gbf-scrollrunway {
+  display: grid;
+  place-items: center;
+  height: 60vh;
+  color: var(--gbf-fg-faint);
+  font-size: 0.8125rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.gbf-scrollrunway__arrow {
+  display: block;
+  font-size: 1.5rem;
+  margin-top: 0.5rem;
+  animation: gbf-bounce 1.6s ease-in-out infinite;
+}
+@keyframes gbf-bounce {
+  0%, 100% { transform: translateY(0); opacity: 0.6; }
+  50%      { transform: translateY(6px); opacity: 1; }
+}
+
+/* Footer ------------------------------------------------------------------ */
+
+.gbf-footer {
+  padding: 3rem 0 4rem;
+  font-size: 0.875rem;
+  color: var(--gbf-fg-muted);
+}
+.gbf-footer__row {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.gbf-footer a { color: var(--gbf-fg); text-decoration: none; border-bottom: 1px solid var(--gbf-border-strong); }
+.gbf-footer a:hover { color: var(--gbf-accent); border-color: var(--gbf-accent); }
+
+/* Form controls ----------------------------------------------------------- */
+
+.gbf-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  background: var(--gbf-border-strong);
+  border-radius: 999px;
+  outline: none;
+}
+.gbf-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--gbf-accent);
+  cursor: grab;
+  border: 2px solid var(--gbf-bg);
+  box-shadow: 0 0 0 1px var(--gbf-accent);
+}
+.gbf-range::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--gbf-accent);
+  cursor: grab;
+  border: 2px solid var(--gbf-bg);
+  box-shadow: 0 0 0 1px var(--gbf-accent);
+}
