@@ -126,6 +126,56 @@ new Turntable("#myTurntable", {
     </div>
   </section>
 
+  <section class="gbf-section">
+    <div class="gbf-container">
+      <p class="gbf-eyebrow gbf-eyebrow--accent">Mode &middot; Scroll</p>
+      <h2 class="gbf-section__title">Driven by scroll position</h2>
+      <p class="gbf-section__lede">Set <code>axis: "scroll"</code> and the active frame tracks the turntable's position relative to the viewport's middle. <code>IntersectionObserver</code> shuts the handler off when the element is off-screen.</p>
+      <div class="gbf-stage gbf-stage--split">
+        <pre class="gbf-code"><code>new Turntable("#myTurntable", {
+  axis: "scroll",
+  scrollStart: "middle", // or "top" | "bottom"
+});</code></pre>
+        <div class="gbf-canvas">
+          <p style="margin:0; font-size:0.875rem; color:var(--gbf-fg-muted)">Keep scrolling ↓</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="gbf-scrollrunway">
+      Scroll
+      <span class="gbf-scrollrunway__arrow" aria-hidden="true">↓</span>
+    </div>
+
+    <div class="gbf-container">
+      <div class="gbf-canvas">
+        <div id="ttScroll" class="turntable" data-axis="scroll">
+          <ul>
+            <li data-img-src="images/plant1.JPG"></li>
+            <li data-img-src="images/plant3.JPG"></li>
+            <li data-img-src="images/plant5.JPG"></li>
+            <li data-img-src="images/plant7.JPG"></li>
+            <li data-img-src="images/plant9.JPG"></li>
+            <li data-img-src="images/plant11.JPG"></li>
+            <li data-img-src="images/plant13.JPG"></li>
+            <li data-img-src="images/plant15.JPG"></li>
+            <li data-img-src="images/plant17.JPG"></li>
+            <li data-img-src="images/plant19.JPG"></li>
+            <li data-img-src="images/plant21.JPG"></li>
+            <li data-img-src="images/plant23.JPG"></li>
+            <li data-img-src="images/plant25.JPG"></li>
+            <li data-img-src="images/plant27.JPG"></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="gbf-scrollrunway">
+      Keep going
+      <span class="gbf-scrollrunway__arrow" aria-hidden="true">↓</span>
+    </div>
+  </section>
+
   <footer class="gbf-footer">
     <div class="gbf-container gbf-footer__row">
       <span>MIT &middot; <a href="https://github.com/GoBoldlyForward">Go Boldly Forward</a></span>
@@ -138,6 +188,7 @@ new Turntable("#myTurntable", {
     new Turntable("#ttPointer", { axis: "x" });
     new Turntable("#ttRange",   { controller: document.getElementById("rangeCtl") });
     new Turntable("#ttAuto",    { autorotate: 120 });
+    new Turntable("#ttScroll",  { axis: "scroll", scrollStart: "middle" });
   </script>
 </body>
 </html>
