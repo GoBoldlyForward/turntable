@@ -1,0 +1,27 @@
+/* Minimum CSS for Turntable to function. Author styles its container freely. */
+
+.turntable {
+  display: inline-block;
+  margin: 0;
+  /* Prevent the page from scrolling while a finger is scrubbing the frames. */
+  touch-action: none;
+}
+
+.turntable > ul {
+  padding: 0;
+  margin: 0;
+}
+
+.turntable > ul > li {
+  list-style: none;
+  display: none;
+}
+
+.turntable > ul > li > img {
+  width: 100%;
+  display: block;
+}
+
+.turntable > ul > li.active {
+  display: block;
+}
