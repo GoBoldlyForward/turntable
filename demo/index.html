@@ -178,13 +178,14 @@ new Turntable("#myTurntable", {
 
   <footer class="gbf-footer">
     <div class="gbf-container gbf-footer__row">
-      <span>MIT &middot; <a href="https://github.com/GoBoldlyForward">Go Boldly Forward</a></span>
+      <span>&copy; <span id="current-year"></span> by <a href="https://morganjlopes.com">Morgan Lopes</a>. <a href="https://www.goboldlyforward.com">Go Boldly Forward!</a></span>
       <span>v2.0.0 &middot; <a href="https://github.com/GoBoldlyForward/turntable/tree/v1-jquery-legacy">v1 (jQuery)</a></span>
     </div>
   </footer>
 
   <script src="../dist/turntable.iife.min.js"></script>
   <script>
+    document.getElementById("current-year").textContent = new Date().getFullYear();
     new Turntable("#ttPointer", { axis: "x" });
     new Turntable("#ttRange",   { controller: document.getElementById("rangeCtl") });
     new Turntable("#ttAuto",    { autorotate: 120 });
