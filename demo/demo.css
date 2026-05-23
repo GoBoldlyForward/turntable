@@ -1,38 +1,69 @@
-/* Go Boldly Forward — plugin demo theme v1
+/* Go Boldly Forward — plugin & tool demo theme v1
  *
- * Canonical, dependency-free stylesheet for any plugin's demo page.
- * Light + dark via prefers-color-scheme. CSS custom properties for theming.
+ * One shared theme across every Plugin demo and every Tool UI. Same neutrals,
+ * same typography, same markup — each instance varies only its accent color.
+ * Light + dark via prefers-color-scheme. Zero dependencies (Inter is the
+ * single external font, via rsms.me).
  *
  * Master copy lives at ~/code/_plugins/_shared/demo.css.
- * Each plugin's gh-pages demo carries its own copy (cross-repo loading is
- * not portable). When this file changes, sync it into each plugin's demo/.
+ * Each plugin's gh-pages demo and each tool's app folder carries its own
+ * synced copy (cross-repo loading isn't portable). When this file changes,
+ * sync it into every consumer's local demo.css.
  *
- * Markup convention:
- *   <body>
- *     <header class="gbf-header">
- *       <div class="gbf-container">
- *         <p class="gbf-eyebrow">Plugin</p>
- *         <h1 class="gbf-title">name</h1>
- *         <p class="gbf-tagline">…</p>
- *         <code class="gbf-install">npm install …</code>
- *         <nav class="gbf-nav"><a>…</a></nav>
- *       </div>
- *     </header>
+ * ─────────────────────────────────────────────────────────────────────────
+ *  Per-instance customization
+ * ─────────────────────────────────────────────────────────────────────────
  *
- *     <section class="gbf-section">
- *       <div class="gbf-container">
- *         <p class="gbf-eyebrow gbf-eyebrow--accent">Mode</p>
- *         <h2 class="gbf-section__title">Title</h2>
- *         <p class="gbf-section__lede">…</p>
- *         <div class="gbf-stage gbf-stage--split">
- *           <div class="gbf-canvas">…</div>
- *           <pre class="gbf-code"><code>…</code></pre>
- *         </div>
- *       </div>
- *     </section>
+ *  Each plugin / tool picks one accent color. Override the tokens below in
+ *  a local stylesheet loaded AFTER demo.css. Light + dark variants are both
+ *  needed — dark mode lifts the accent toward a lighter shade for contrast.
  *
- *     <footer class="gbf-footer">…</footer>
- *   </body>
+ *  Example — blue accent (suggested for tagy):
+ *
+ *    :root {
+ *      --gbf-accent:      #2563eb;                    / * blue-600 * /
+ *      --gbf-accent-soft: rgba(37, 99, 235, 0.10);
+ *    }
+ *    @media (prefers-color-scheme: dark) {
+ *      :root {
+ *        --gbf-accent:      #60a5fa;                  / * blue-400 * /
+ *        --gbf-accent-soft: rgba(96, 165, 250, 0.14);
+ *      }
+ *    }
+ *
+ *  Tailwind's color scale is a sane source for the 600/400 pair pattern.
+ *  Keep neutrals, geometry, and type tokens untouched so the family
+ *  reads as one.
+ *
+ * ─────────────────────────────────────────────────────────────────────────
+ *  Markup convention
+ * ─────────────────────────────────────────────────────────────────────────
+ *
+ *  <body>
+ *    <header class="gbf-header">
+ *      <div class="gbf-container">
+ *        <p class="gbf-eyebrow">Plugin</p>
+ *        <h1 class="gbf-title">name</h1>
+ *        <p class="gbf-tagline">…</p>
+ *        <code class="gbf-install">npm install …</code>
+ *        <nav class="gbf-nav"><a>…</a></nav>
+ *      </div>
+ *    </header>
+ *
+ *    <section class="gbf-section">
+ *      <div class="gbf-container">
+ *        <p class="gbf-eyebrow gbf-eyebrow--accent">Mode</p>
+ *        <h2 class="gbf-section__title">Title</h2>
+ *        <p class="gbf-section__lede">…</p>
+ *        <div class="gbf-stage gbf-stage--split">
+ *          <div class="gbf-canvas">…</div>
+ *          <pre class="gbf-code"><code>…</code></pre>
+ *        </div>
+ *      </div>
+ *    </section>
+ *
+ *    <footer class="gbf-footer">…</footer>
+ *  </body>
  */
 
 :root {
