@@ -16,11 +16,11 @@
  */
 
 const DEFAULTS = Object.freeze({
-  axis: "x",              // 'x' | 'y' | 'scroll'
+  axis: "x",
   reverse: false,
-  scrollStart: "middle",  // 'top' | 'middle' | 'bottom'
-  autorotate: false,      // false | number (ms per frame)
-  controller: null,       // optional HTMLInputElement (type=range)
+  scrollStart: "middle",
+  autorotate: false,
+  controller: null,
 });
 
 export class Turntable {
@@ -57,8 +57,6 @@ export class Turntable {
 
     this._setActive(0);
   }
-
-  // --- public API ---------------------------------------------------------
 
   /** Force a re-measure (call after the container resizes off-window). */
   update() { this._divide(); }
@@ -103,14 +101,12 @@ export class Turntable {
     this.activeIndex = -1;
   }
 
-  // --- internals ----------------------------------------------------------
-
   _loadImages() {
     for (const li of this.items) {
       const src = li.dataset.imgSrc;
       if (!src) continue;
       const img = document.createElement("img");
-      img.src = src;          // .src setter avoids HTML injection
+      img.src = src;   // .src setter avoids HTML injection
       img.alt = "";
       li.replaceChildren(img);
     }
@@ -138,14 +134,12 @@ export class Turntable {
   }
 
   _bindPointer() {
-    // PointerEvents unify mouse / touch / pen, replacing the v1 UA-regex split.
     const handler = (e) => {
       const rect = this.element.getBoundingClientRect();
       const position = this.options.axis === "y"
         ? e.clientY - rect.top
         : e.clientX - rect.left;
-      // touch-action: none would be ideal in CSS; without it, prevent default
-      // so the page doesn't scroll while scrubbing.
+      // Prevent page scroll while scrubbing on touch.
       if (e.pointerType === "touch") e.preventDefault();
       this._schedule(position);
     };
@@ -155,8 +149,7 @@ export class Turntable {
   }
 
   _bindScroll() {
-    // IntersectionObserver gates the scroll handler so we do zero work when
-    // the turntable is off-screen.
+    // Gate scroll work when turntable is off-screen.
     this._observer = new IntersectionObserver(
       ([entry]) => { this._visible = entry.isIntersecting; },
       { threshold: 0 },
@@ -189,7 +182,7 @@ export class Turntable {
   }
 
   _schedule(position) {
-    // Coalesce rapid events (pointermove, scroll) to one frame per paint.
+    // Coalesce rapid pointer/scroll events to one frame per paint.
     if (this._rafId) return;
     this._rafId = requestAnimationFrame(() => {
       this._rafId = null;
@@ -205,7 +198,6 @@ export class Turntable {
     }
     this.items[index]?.classList.add("active");
     this.activeIndex = index;
-    // Keep an attached range input in sync when activeIndex is driven elsewhere.
     if (this.options.controller && Number(this.options.controller.value) !== index) {
       this.options.controller.value = String(index);
     }

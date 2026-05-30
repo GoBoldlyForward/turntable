@@ -1,5 +1,3 @@
-// Bundles src/turntable.js to ESM, CJS, and IIFE (browser script tag), each minified.
-// Also copies src/turntable.css to dist/.
 import { build } from "esbuild";
 import { copyFile, mkdir } from "node:fs/promises";
 

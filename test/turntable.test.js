@@ -1,7 +1,6 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { Turntable } from "../src/turntable.js";
 
-// Helper: build the container Turntable expects.
 function mount(frames = 4, attrs = "") {
   const root = document.createElement("div");
   root.className = "turntable";
@@ -32,7 +31,6 @@ function fakeLayout(el, { width = 400, height = 300, top = 0, left = 0 } = {}) {
 
 beforeEach(() => {
   document.body.innerHTML = "";
-  // jsdom innerWidth/innerHeight default to 1024/768 which works for scroll math.
 });
 
 describe("Turntable construction", () => {
@@ -48,7 +46,6 @@ describe("Turntable construction", () => {
   it("loads each <li> with an <img> using the .src setter (no HTML injection)", () => {
     const root = mount(3);
     fakeLayout(root);
-    // Poison one src to confirm it isn't parsed as HTML.
     root.querySelectorAll("li")[1].dataset.imgSrc = `x" onerror="window.__pwned=true`;
     const t = new Turntable(root);
     const imgs = root.querySelectorAll("li > img");
@@ -108,7 +105,6 @@ describe("reverse option", () => {
     const root = mount(4);
     fakeLayout(root); // 400px wide, 4 frames → 100px each
     const t = new Turntable(root, { reverse: true });
-    // Section [0..100] maps to index 3 (last frame) when reversed.
     expect(t.sections[0].index).toBe(3);
     expect(t.sections[3].index).toBe(0);
     t.destroy();
@@ -130,7 +126,7 @@ describe("autorotate", () => {
     vi.advanceTimersByTime(100);
     expect(lis[2].classList.contains("active")).toBe(true);
     vi.advanceTimersByTime(100);
-    expect(lis[0].classList.contains("active")).toBe(true); // wrapped
+    expect(lis[0].classList.contains("active")).toBe(true);
     t.destroy();
   });
 
@@ -159,12 +155,10 @@ describe("controller (range input)", () => {
     expect(input.step).toBe("1");
     expect(input.value).toBe("0");
 
-    // Driving the input updates the active frame.
     input.value = "2";
     input.dispatchEvent(new Event("input"));
     expect(root.querySelectorAll("li")[2].classList.contains("active")).toBe(true);
 
-    // Driving the turntable updates the input.
     t.setFrame(4);
     expect(input.value).toBe("4");
 
@@ -193,7 +187,6 @@ describe("destroy", () => {
     const t = new Turntable(root, { autorotate: 50 });
     t.destroy();
     vi.advanceTimersByTime(500);
-    // No active frame after destroy.
     expect(root.querySelectorAll("li.active")).toHaveLength(0);
     vi.useRealTimers();
   });

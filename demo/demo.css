@@ -1,77 +1,14 @@
 /* Go Boldly Forward — plugin & tool demo theme v1
  *
- * One shared theme across every Plugin demo and every Tool UI. Same neutrals,
- * same typography, same markup — each instance varies only its accent color.
- * Light + dark via prefers-color-scheme. Zero dependencies (Inter is the
- * single external font, via rsms.me).
- *
- * Master copy lives at ~/code/_plugins/_shared/demo.css.
- * Each plugin's gh-pages demo and each tool's app folder carries its own
- * synced copy (cross-repo loading isn't portable). When this file changes,
- * sync it into every consumer's local demo.css.
- *
- * ─────────────────────────────────────────────────────────────────────────
- *  Per-instance customization
- * ─────────────────────────────────────────────────────────────────────────
- *
- *  Each plugin / tool picks one accent color. Override the tokens below in
- *  a local stylesheet loaded AFTER demo.css. Light + dark variants are both
- *  needed — dark mode lifts the accent toward a lighter shade for contrast.
- *
- *  Example — blue accent (suggested for tagy):
- *
- *    :root {
- *      --gbf-accent:      #2563eb;                    / * blue-600 * /
- *      --gbf-accent-soft: rgba(37, 99, 235, 0.10);
- *    }
- *    @media (prefers-color-scheme: dark) {
- *      :root {
- *        --gbf-accent:      #60a5fa;                  / * blue-400 * /
- *        --gbf-accent-soft: rgba(96, 165, 250, 0.14);
- *      }
- *    }
- *
- *  Tailwind's color scale is a sane source for the 600/400 pair pattern.
- *  Keep neutrals, geometry, and type tokens untouched so the family
- *  reads as one.
- *
- * ─────────────────────────────────────────────────────────────────────────
- *  Markup convention
- * ─────────────────────────────────────────────────────────────────────────
- *
- *  <body>
- *    <header class="gbf-header">
- *      <div class="gbf-container">
- *        <p class="gbf-eyebrow">Plugin</p>
- *        <h1 class="gbf-title">name</h1>
- *        <p class="gbf-tagline">…</p>
- *        <code class="gbf-install">npm install …</code>
- *        <nav class="gbf-nav"><a>…</a></nav>
- *      </div>
- *    </header>
- *
- *    <section class="gbf-section">
- *      <div class="gbf-container">
- *        <p class="gbf-eyebrow gbf-eyebrow--accent">Mode</p>
- *        <h2 class="gbf-section__title">Title</h2>
- *        <p class="gbf-section__lede">…</p>
- *        <div class="gbf-stage gbf-stage--split">
- *          <div class="gbf-canvas">…</div>
- *          <pre class="gbf-code"><code>…</code></pre>
- *        </div>
- *      </div>
- *    </section>
- *
- *    <footer class="gbf-footer">…</footer>
- *  </body>
+ * Shared theme across every plugin demo and tool UI. Master copy lives at
+ * ~/code/_plugins/_shared/demo.css; each consumer carries a synced copy
+ * (cross-repo loading isn't portable).
  */
 
 :root {
-  /* Type stacks */
   --gbf-font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
   --gbf-font-mono: "JetBrains Mono", "SF Mono", ui-monospace, Menlo, Consolas, monospace;
 
-  /* Light palette (zinc + orange) */
   --gbf-bg:            #ffffff;
   --gbf-bg-elevated:   #fafafa;
   --gbf-bg-code:       #f4f4f5;
@@ -80,11 +17,10 @@
   --gbf-fg-faint:      #a1a1aa;
   --gbf-border:        #e4e4e7;
   --gbf-border-strong: #d4d4d8;
-  --gbf-accent:        #ea580c; /* orange-600 */
+  --gbf-accent:        #ea580c;
   --gbf-accent-fg:     #ffffff;
   --gbf-accent-soft:   rgba(234, 88, 12, 0.10);
 
-  /* Geometry */
   --gbf-radius:        8px;
   --gbf-radius-lg:     14px;
   --gbf-container:     1040px;
@@ -92,7 +28,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme]) {
     --gbf-bg:            #0a0a0b;
     --gbf-bg-elevated:   #18181b;
     --gbf-bg-code:       #18181b;
@@ -101,9 +37,51 @@
     --gbf-fg-faint:      #71717a;
     --gbf-border:        #27272a;
     --gbf-border-strong: #3f3f46;
-    --gbf-accent:        #fb923c; /* orange-400, lifts on dark */
+    --gbf-accent:        #fb923c;
     --gbf-accent-soft:   rgba(251, 146, 60, 0.14);
   }
+}
+
+:root[data-theme="dark"] {
+  --gbf-bg:            #0a0a0b;
+  --gbf-bg-elevated:   #18181b;
+  --gbf-bg-code:       #18181b;
+  --gbf-fg:            #fafafa;
+  --gbf-fg-muted:      #a1a1aa;
+  --gbf-fg-faint:      #71717a;
+  --gbf-border:        #27272a;
+  --gbf-border-strong: #3f3f46;
+  --gbf-accent:        #fb923c;
+  --gbf-accent-soft:   rgba(251, 146, 60, 0.14);
+}
+
+.gbf-theme-toggle {
+  position: fixed;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 100;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: var(--gbf-bg-elevated);
+  border: 1px solid var(--gbf-border);
+  color: var(--gbf-fg);
+  font-size: 1.05rem;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  padding: 0;
+  line-height: 1;
+}
+.gbf-theme-toggle:hover {
+  background: var(--gbf-accent-soft);
+  border-color: var(--gbf-accent);
+  color: var(--gbf-accent);
+}
+.gbf-theme-toggle:focus-visible {
+  outline: 2px solid var(--gbf-accent);
+  outline-offset: 2px;
 }
 
 * { box-sizing: border-box; }
@@ -124,16 +102,12 @@ body {
 a { color: var(--gbf-accent); text-underline-offset: 3px; }
 a:hover { text-decoration-thickness: 2px; }
 
-/* Layout primitives ------------------------------------------------------- */
-
 .gbf-container {
   max-width: var(--gbf-container);
   margin: 0 auto;
   padding: 0 1.5rem;
 }
 .gbf-container--narrow { max-width: var(--gbf-container-narrow); }
-
-/* Eyebrows — small uppercase labels */
 
 .gbf-eyebrow {
   font-size: 0.75rem;
@@ -144,8 +118,6 @@ a:hover { text-decoration-thickness: 2px; }
   margin: 0 0 0.75rem;
 }
 .gbf-eyebrow--accent { color: var(--gbf-accent); }
-
-/* Header ------------------------------------------------------------------ */
 
 .gbf-header {
   padding: 5rem 0 4rem;
@@ -201,8 +173,6 @@ a:hover { text-decoration-thickness: 2px; }
 }
 .gbf-nav a:hover { color: var(--gbf-accent); border-color: var(--gbf-accent); }
 
-/* Section ----------------------------------------------------------------- */
-
 .gbf-section {
   padding: 4rem 0;
   border-bottom: 1px solid var(--gbf-border);
@@ -222,8 +192,6 @@ a:hover { text-decoration-thickness: 2px; }
   margin: 0 0 2.25rem;
   max-width: 44em;
 }
-
-/* Stage — side-by-side canvas + code on wider screens */
 
 .gbf-stage {
   display: grid;
@@ -266,13 +234,9 @@ a:hover { text-decoration-thickness: 2px; }
   padding: 0;
 }
 
-/* Scroll-driven section --------------------------------------------------- */
-
-/* Wraps a normal-flow canvas in generous top/bottom runway so the user can
- * scroll the element through the viewport middle — that's what the
- * plugin's `axis: 'scroll'` mode reacts to. Don't sticky-position the
- * widget; the scroll math reads its rect.top relative to viewport center.
- */
+/* Generous runway so the user scrolls the element through viewport middle
+ * — the plugin's `axis: 'scroll'` mode reads rect.top relative to viewport
+ * center. Don't sticky-position the widget. */
 .gbf-scrollrunway {
   display: grid;
   place-items: center;
@@ -293,8 +257,6 @@ a:hover { text-decoration-thickness: 2px; }
   50%      { transform: translateY(6px); opacity: 1; }
 }
 
-/* Footer ------------------------------------------------------------------ */
-
 .gbf-footer {
   padding: 3rem 0 4rem;
   font-size: 0.875rem;
@@ -308,8 +270,6 @@ a:hover { text-decoration-thickness: 2px; }
 }
 .gbf-footer a { color: var(--gbf-fg); text-decoration: none; border-bottom: 1px solid var(--gbf-border-strong); }
 .gbf-footer a:hover { color: var(--gbf-accent); border-color: var(--gbf-accent); }
-
-/* Form controls ----------------------------------------------------------- */
 
 .gbf-range {
   -webkit-appearance: none;

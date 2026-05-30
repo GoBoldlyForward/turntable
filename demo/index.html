@@ -3,7 +3,47 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Turntable — frame-flipping image slider</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data:; connect-src 'self';">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <title>turntable.js — frame-flipping image slider (360° viewer)</title>
+  <meta name="description" content="Frame-flipping image slider for product 360° views and image sequences. Drag, scroll, autorotate, or wire to a range input. Zero dependencies, ~4 KB minified.">
+  <meta name="keywords" content="360 product viewer javascript, image sequence slider, frame-by-frame image viewer, drag to spin image, scroll-driven image animation, 360 image viewer js, product turntable, image sequence player, javascript 360 viewer, frame slider plugin">
+  <meta name="author" content="Go Boldly Forward">
+
+  <link rel="canonical" href="https://goboldlyforward.github.io/turntable/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="turntable.js — frame-flipping image slider (360° viewer)">
+  <meta property="og:description" content="Frame-flipping image slider for product 360° views and image sequences. Drag, scroll, autorotate, or wire to a range input. Zero dependencies, ~4 KB minified.">
+  <meta property="og:url" content="https://goboldlyforward.github.io/turntable/">
+  <meta property="og:site_name" content="Go Boldly Forward Plugins">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="turntable.js — frame-flipping image slider (360° viewer)">
+  <meta name="twitter:description" content="Frame-flipping image slider for product 360° views and image sequences. Drag, scroll, autorotate, or wire to a range input. Zero dependencies, ~4 KB minified.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "turntable.js",
+    "description": "Frame-flipping image slider for product 360° views and image sequences. Drag, scroll, autorotate, or wire to a range input. Zero dependencies, ~4 KB minified.",
+    "url": "https://goboldlyforward.github.io/turntable/",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Web Browser",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "Go Boldly Forward",
+      "url": "https://goboldlyforward.com"
+    },
+    "keywords": "360 product viewer javascript, image sequence slider, frame-by-frame image viewer, drag to spin image, scroll-driven image animation, 360 image viewer js, product turntable, image sequence player, javascript 360 viewer, frame slider plugin"
+  }
+  </script>
 
   <link rel="preconnect" href="https://rsms.me/">
   <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
@@ -18,22 +58,26 @@
   </style>
 </head>
 <body>
+  <button class="gbf-theme-toggle" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+    <span class="gbf-theme-toggle__icon" aria-hidden="true">☾</span>
+  </button>
 
   <header class="gbf-header">
     <div class="gbf-container">
       <p class="gbf-eyebrow">Plugin</p>
-      <h1 class="gbf-title">Turntable<span class="gbf-title__accent">.</span></h1>
+      <h1 class="gbf-title">turntable<span class="gbf-title__accent">.js</span></h1>
       <p class="gbf-tagline">A small frame-flipping image slider. Drag, scroll, autorotate, or wire it to a range input. Zero dependencies, ~4&nbsp;KB minified.</p>
       <code class="gbf-install">npm install @goboldlyforward/turntable</code>
       <nav class="gbf-nav">
         <a href="https://github.com/GoBoldlyForward/turntable">GitHub</a>
         <a href="https://www.npmjs.com/package/@goboldlyforward/turntable">npm</a>
         <a href="https://github.com/GoBoldlyForward/turntable#readme">Docs</a>
-        <a href="https://github.com/GoBoldlyForward/turntable/blob/master/CHANGELOG.md">Changelog</a>
+        <a href="https://github.com/GoBoldlyForward/turntable/blob/main/CHANGELOG.md">Changelog</a>
       </nav>
     </div>
   </header>
 
+  <main>
   <section class="gbf-section">
     <div class="gbf-container">
       <p class="gbf-eyebrow gbf-eyebrow--accent">Mode &middot; Pointer</p>
@@ -175,6 +219,7 @@ new Turntable("#myTurntable", {
       <span class="gbf-scrollrunway__arrow" aria-hidden="true">↓</span>
     </div>
   </section>
+  </main>
 
   <footer class="gbf-footer">
     <div class="gbf-container gbf-footer__row">
@@ -186,6 +231,28 @@ new Turntable("#myTurntable", {
   <script src="../dist/turntable.iife.min.js"></script>
   <script>
     document.getElementById("current-year").textContent = new Date().getFullYear();
+
+    (() => {
+      const root = document.documentElement;
+      const toggle = document.querySelector('.gbf-theme-toggle');
+      const icon = toggle.querySelector('.gbf-theme-toggle__icon');
+      const apply = (theme) => {
+        root.setAttribute('data-theme', theme);
+        const isDark = theme === 'dark';
+        icon.textContent = isDark ? '☀' : '☾';
+        toggle.setAttribute('aria-pressed', String(isDark));
+        toggle.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+      };
+      const stored = localStorage.getItem('gbf-theme');
+      const initial = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      apply(initial);
+      toggle.addEventListener('click', () => {
+        const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        apply(next);
+        localStorage.setItem('gbf-theme', next);
+      });
+    })();
+
     new Turntable("#ttPointer", { axis: "x" });
     new Turntable("#ttRange",   { controller: document.getElementById("rangeCtl") });
     new Turntable("#ttAuto",    { autorotate: 120 });
