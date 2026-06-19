@@ -37,6 +37,9 @@
   ],
   "author": "Go Boldly Forward",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/GoBoldlyForward/turntable.git"

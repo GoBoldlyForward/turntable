@@ -26,14 +26,10 @@ __export(turntable_exports, {
 module.exports = __toCommonJS(turntable_exports);
 var DEFAULTS = Object.freeze({
   axis: "x",
-  // 'x' | 'y' | 'scroll'
   reverse: false,
   scrollStart: "middle",
-  // 'top' | 'middle' | 'bottom'
   autorotate: false,
-  // false | number (ms per frame)
   controller: null
-  // optional HTMLInputElement (type=range)
 });
 var Turntable = class {
   constructor(element, options = {}) {
@@ -61,7 +57,6 @@ var Turntable = class {
     if (this.options.autorotate) this.start();
     this._setActive(0);
   }
-  // --- public API ---------------------------------------------------------
   /** Force a re-measure (call after the container resizes off-window). */
   update() {
     this._divide();
@@ -102,7 +97,6 @@ var Turntable = class {
     }
     this.activeIndex = -1;
   }
-  // --- internals ----------------------------------------------------------
   _loadImages() {
     for (const li of this.items) {
       const src = li.dataset.imgSrc;
